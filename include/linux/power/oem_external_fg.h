@@ -108,7 +108,6 @@ void bq27541_information_register(struct external_battery_gauge *fast_chg);
 void bq27541_information_unregister(struct external_battery_gauge *fast_chg);
 bool get_extern_fg_regist_done(void);
 bool get_extern_bq_present(void);
-int get_prop_pre_shutdown_soc(void);
 
 extern bool dash_adapter_update_is_tx_gpio(unsigned long gpio_num);
 extern bool dash_adapter_update_is_rx_gpio(unsigned long gpio_num);
