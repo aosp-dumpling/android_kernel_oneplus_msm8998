@@ -518,7 +518,7 @@ static int msm_snd_enable_codec_ext_clk(struct snd_soc_codec *codec,
 					int enable, bool dapm);
 static int msm_wsa881x_init(struct snd_soc_component *component);
 
-int op_project_17801;
+static bool op_project_17801;
 
 /*
  * Need to report LINEIN
@@ -3747,6 +3747,13 @@ static int msm_audrx_init(struct snd_soc_pcm_runtime *rtd)
 		pdata->codec_root = entry;
 		tavil_codec_info_create_codec_entry(pdata->codec_root, codec);
 	} else {
+		if (rtd->card->num_aux_devs && rtd_aux && rtd_aux->component)
+			if (!strcmp(rtd_aux->component->name, WSA8810_NAME_1) ||
+			    !strcmp(rtd_aux->component->name, WSA8810_NAME_2)) {
+				tasha_set_spkr_mode(rtd->codec, SPKR_MODE_1);
+				tasha_set_spkr_gain_offset(rtd->codec,
+							RX_GAIN_OFFSET_M1P5_DB);
+		}
 		card = rtd->card->snd_card;
 		entry = snd_register_module_info(card->module, "codecs",
 						 card->proc_root);
@@ -4260,7 +4267,7 @@ static int msm_set_pinctrl(struct msm_pinctrl_info *pinctrl_info,
 		goto err;
 	}
 
-	if (pinctrl_info->pinctrl == NULL) {
+	if (!pinctrl_info->pinctrl) {
 		pr_debug("%s: pinctrl_info->pinctrl is NULL\n", __func__);
 		goto err;
 	}
@@ -7422,12 +7429,8 @@ static int msm_asoc_machine_probe(struct platform_device *pdev)
 	platform_set_drvdata(pdev, card);
 	snd_soc_card_set_drvdata(card, pdata);
 
-	ret = of_property_read_bool(card->dev->of_node, "op,project_17801");
-	if (ret)
-		op_project_17801 = 0;
-	else
-		op_project_17801 = 1;
-	pr_err("%s project name: %d", __func__, op_project_17801);
+	op_project_17801 = of_property_read_bool(card->dev->of_node,
+							"op,project_17801");
 
 	ret = snd_soc_of_parse_card_name(card, "qcom,model");
 	if (ret) {
@@ -7478,9 +7481,12 @@ static int msm_asoc_machine_probe(struct platform_device *pdev)
 		ret = -EPROBE_DEFER;
 		goto err;
 	}
-	ret = msm_init_wsa_dev(pdev, card);
-	if (ret)
-		goto err;
+
+	if (IS_ENABLED(CONFIG_SND_SOC_WSA881X)) {
+		ret = msm_init_wsa_dev(pdev, card);
+		if (ret)
+			goto err;
+	}
 
 	ret = devm_snd_soc_register_card(&pdev->dev, card);
 	if (ret == -EPROBE_DEFER) {
