@@ -395,7 +395,7 @@ static void touch_disable(struct synaptics_ts_data *ts)
 
 static void tpd_hw_pwron(struct synaptics_ts_data *ts)
 {
-	int rc;
+	int rc = 0;
 
 	pinctrl_select_state(ts->pinctrl, ts->pinctrl_state_active);
 
