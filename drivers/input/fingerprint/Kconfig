@@ -9,13 +9,6 @@ menuconfig INPUT_FINGERPRINT
 
 if INPUT_FINGERPRINT
 
-config INPUT_FINGERPRINT_DETECT
-	tristate "Fingerprint detect Driver"
-	depends on SPI_MASTER
-	default n
-	help
-	  This is a fingerprint detect Driver.
-
 config INPUT_GOODIX
 	tristate "Goodix fingerprint sensor Driver"
 	depends on SPI_MASTER
