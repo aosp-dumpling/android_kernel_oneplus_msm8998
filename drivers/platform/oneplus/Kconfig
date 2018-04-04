@@ -1,0 +1,10 @@
+menu "OnePlus specific device drivers"
+	depends on ARCH_QCOM
+
+config BOARD_DUMPLING
+	bool "Dumpling device support"
+	depends on ARCH_MSM8998
+	help
+	  Say 'y' here to include Dumpling only modifications
+
+endmenu
