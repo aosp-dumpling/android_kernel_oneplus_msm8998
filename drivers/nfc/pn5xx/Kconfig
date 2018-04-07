@@ -1,0 +1,10 @@
+#
+# Near Field Communication (NFC) devices
+#
+
+config NFC_PN5XX
+	tristate "NXP PN5XX NFC Driver"
+	depends on I2C
+	default n
+	help
+	  Say Y here to compile the NFC driver for NXP PN5XX NFC based devices.
