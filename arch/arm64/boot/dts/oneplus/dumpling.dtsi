@@ -1692,6 +1692,8 @@
 };
 
 &i2c_6 {
+	status = "ok";
+
 	nq@28 {
 		status = "disabled";
 	};
