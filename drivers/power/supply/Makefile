@@ -1,1 +1,1 @@
-obj-y	+= qcom/
+obj-y	+= oem_qcom/

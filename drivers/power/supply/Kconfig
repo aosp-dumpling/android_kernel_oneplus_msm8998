@@ -1,1 +1,1 @@
-source "drivers/power/supply/qcom/Kconfig"
+source "drivers/power/supply/oem_qcom/Kconfig"
