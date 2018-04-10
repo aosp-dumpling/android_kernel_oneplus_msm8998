@@ -185,3 +185,5 @@ obj-$(CONFIG_ESOC)              += esoc/
 
 #porting for support oem trace
 obj-$(CONFIG_OEM_DEBUG_SUPPORT)  += oneplus/
+
+obj-y  += param_read_write/
