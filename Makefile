@@ -409,6 +409,8 @@ KBUILD_AFLAGS_MODULE  := -DMODULE
 KBUILD_CFLAGS_MODULE  := -DMODULE
 KBUILD_LDFLAGS_MODULE := -T $(srctree)/scripts/module-common.lds
 
+#CFLAGS_KERNEL +=   -DJUST_FOR_BRINGUP
+
 
 # Anderson 2016/12/20, Add build flag to build f2fs image
 ifeq ($(OEM_USE_F2FS),true)
